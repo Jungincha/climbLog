@@ -1,0 +1,130 @@
+/* font-family: 'Didact Gothic', sans-serif;
+font-family: 'Permanent Marker', cursive;
+font-family: 'Secular One', sans-serif; */
+
+:root {
+    --color-dark--1: #211a1d;
+    --color-dark--2: #8a716a;
+    --color-light--1: #f8f0fb;
+    --color-light--2: #59c3c3;
+    --color-light--3: #edf2ef;
+
+}
+
+* {
+    margin: 0;
+    border: 0;
+    box-sizing: border-box;
+}
+
+
+body {
+    font-family: 'Didact Gothic', sans-serif;
+    color: var(--color-light--1);
+    font-weight: 400;
+    line-height: 1.6;
+    overscroll-behavior-y: none;
+    display: flex;
+    height: 100vh;
+}
+
+/* GENERAL */
+
+a:link,
+a:visited {
+    color: var(--color-light--2);
+}
+
+/* SIDEBAR */
+.sidebar {
+    flex-basis: 33rem;
+    background-color: var(--color-dark--1);
+    padding: 3rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    font-family: 'Secular One', sans-serif;
+    height: 5.2rem;
+    align-self: center;
+    color: var(--color-light--1);
+    margin-bottom: 3rem;
+    text-transform: uppercase;
+}
+
+.workouts {
+    list-style: none;
+    height: 77vh;
+    overflow-y: hidden;
+    overflow-x: hidden;
+}
+
+.form {
+    background-color: var(--color-dark--2);
+    border-radius: 5px;
+    padding: 1rem 1.5rem;
+    margin-bottom: 1.75rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem 2.5rem;
+    height: 9.25rem;
+    transition: all 0.5s, transform 1ms;
+
+}
+
+.form_row {
+    display: flex;
+    align-items: center;
+}
+
+.form_btn {
+    position: relative;
+    left: 50%;
+    cursor: pointer;
+    transform: translateX(15%);
+    border-radius: 3px;
+}
+
+.form_label {
+    flex: 0 0 50%;
+}
+
+.form_input {
+    width: 100%;
+    border: none;
+    border-radius: 3px;
+    transition: all 0.2s;
+    background-color: var(--color-light--3);
+}
+
+.form_input:focus {
+    outline: none;
+    background-color: #fff;
+}
+
+.copyright {
+    margin-top: auto;
+    text-align: center;
+    color: var(--color-light--1);
+}
+
+.github-link:link,
+.github-link:visited {
+    color: var(--color-light--1);
+    transition: all 0.2s;
+}
+
+.github-link:hover,
+.github-link:active {
+    color: var(--color-light--2);
+}
+
+
+/* MAP */
+#map {
+    flex: 1;
+    height: 100%;
+    background-color: var(--color-light--1);
+}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Permanent+Marker&family=Secular+One&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.2/dist/leaflet.css" integrity="sha256-sA+zWATbFveLLNqWO2gtiw3HL/lh1giY/Inf1BJ0z14=" crossorigin="" />
+    <script defer src="https://unpkg.com/leaflet@1.9.2/dist/leaflet.js" integrity="sha256-o9N1jGDZrf5tS+Ft4gbIK7mYMipq9lqpVJ91xHSyKhg=" crossorigin=""></script>
+    <script defer src="./script.js"></script>
+    <title>Climb Log</title>
+</head>
+<body>
+    <div class="sidebar">
+        <h1 class="logo">climb log</h1>
+
+        <ul class="workouts">
+            <form class="form hidden">
+                <div class="form_row">
+                    <label class="form_label">Type</label>
+                    <select class="form_input form_input-type">
+                        <option value="bouldering">Bouldering</option>
+                        <option value="rockclimb">Rock climbing</option>
+                    </select>
+                </div>
+                <div class="form_row">
+                    <label class="form_label">Reps</label>
+                    <input class="form_input form_input-reps" placeholder="0">
+                </div>
+                <div class="form_row">
+                    <label class="form_label">Duration</label>
+                    <input class="form_input form_input-duration" placeholder="min">
+                </div>
+
+                <div class="form_row">
+                    <label class="form_label">Grade</label>
+                    <input class="form_input form_input-grade" placeholder="1">
+                </div>
+                <button class="form_btn">Log</button>
+
+            </form>
+        </ul>
+
+        <p class="copyright">
+            &copy; Copyright by <a href="https://github.com/Jungincha/climbLog" class="github-link">JungIn Cha</a>
+        </p>
+    </div>
+
+    <div id="map"></div>
+    
+</body>
+</html>
