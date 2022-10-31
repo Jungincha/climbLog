@@ -20,7 +20,7 @@
         <h1 class="logo">climb log</h1>
 
         <ul class="workouts">
-            <form class="form hidden">
+            <form class="form hidden" id="log_form">
                 <div class="form_row">
                     <label class="form_label">Type</label>
                     <select class="form_input form_input-type">
@@ -30,7 +30,7 @@
                 </div>
                 <div class="form_row">
                     <label class="form_label">Reps</label>
-                    <input class="form_input form_input-reps" placeholder="0">
+                    <input class="form_input form_input-reps">
                 </div>
                 <div class="form_row">
                     <label class="form_label">Duration</label>
@@ -39,9 +39,9 @@
 
                 <div class="form_row">
                     <label class="form_label">Grade</label>
-                    <input class="form_input form_input-grade" placeholder="1">
+                    <input class="form_input form_input-grade" placeholder="1 - 5">
                 </div>
-                <button class="form_btn">Log</button>
+                <button type="submit" form="log_form" class="form_btn">Log</button>
 
             </form>
         </ul>
