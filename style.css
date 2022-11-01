@@ -8,6 +8,9 @@ font-family: 'Secular One', sans-serif; */
     --color-light--1: #f8f0fb;
     --color-light--2: #59c3c3;
     --color-light--3: #edf2ef;
+    
+    --color-brand--1: #a5be00;
+    --color-brand--2:  #cc5803;
 
 }
 
@@ -135,4 +138,13 @@ a:visited {
     flex: 1;
     height: 100%;
     background-color: var(--color-light--1);
+}
+
+/* MARKER */
+.bouldering-popup .leaflet-popup-content-wrapper {
+    border-left: 5px solid var(--color-brand--1);
+}
+
+.rockclimb-popup .leaflet-popup-content-wrapper {
+    border-left: 5px solid var(--color-brand--2);
 }
