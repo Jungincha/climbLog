@@ -142,9 +142,9 @@ a:visited {
 
 /* MARKER */
 .bouldering-popup .leaflet-popup-content-wrapper {
-    border-left: 5px solid var(--color-brand--1);
+    border-left: 10px solid var(--color-brand--1);
 }
 
 .rockclimb-popup .leaflet-popup-content-wrapper {
-    border-left: 5px solid var(--color-brand--2);
+    border-left: 10px solid var(--color-brand--2);
 }
