@@ -8,11 +8,12 @@ class Climbing {
     date = new Date();
     id = (Date.now() + '').slice(-10);
 
-    constructor(coords, reps, duration, grade) {
+    constructor(coords, reps, duration, grade, note) {
         this.coords = coords; // [lat, lng]
         this.reps = reps;
         this.duration = duration;
         this.grade = grade;
+        this.note = note;
     } 
 
     // can't call this method in climbing class since there is no type
@@ -26,16 +27,16 @@ class Climbing {
 
 class Bouldering extends Climbing {
     type = 'bouldering';
-    constructor(coords, reps, duration, grade) {
-        super(coords, reps, duration, grade);
+    constructor(coords, reps, duration, grade, note) {
+        super(coords, reps, duration, grade, note);
         this._setDescription();
     }
 }
 
 class RockClimbing extends Climbing {
     type = 'rockclimb';
-    constructor(coords, reps, duration, grade) {
-        super(coords, reps, duration, grade);
+    constructor(coords, reps, duration, grade, note) {
+        super(coords, reps, duration, grade, note);
         this._setDescription();
     }
 }
@@ -53,17 +54,28 @@ const inputType = document.querySelector('.form_input-type');
 const inputReps = document.querySelector('.form_input-reps')
 const inputDuration = document.querySelector('.form_input-duration');
 const inputGrade = document.querySelector('.form_input-grade');
+const inputNote = document.querySelector('.form_input-note');
 
 class App {
     // Private instance properties
     #map;
+    #mapZoomLevel = 13;
     #mapEvent;
     #shoeIcon;
     #workouts = [];
 
     constructor() {
+        // Get use's location and load
         this._getPosition(); // It automatically gets the position when the map is loaded
+        
+        // Get data from local storage
+        this._getLocalStorage();
+
+        // When the form is submit
         form.addEventListener('submit', this._newWorkout.bind(this));
+
+        // When the climb card is clicked -> move to the popup
+        containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
     }
 
     _getPosition() {
@@ -83,7 +95,7 @@ class App {
         const {longitude} = position.coords;
         const coords = [latitude, longitude];
     
-        this.#map = L.map('map').setView(coords, 13);
+        this.#map = L.map('map').setView(coords, this.#mapZoomLevel);
     
         this.#shoeIcon = L.icon({
             iconUrl: './image/climbing-shoes.png',
@@ -104,61 +116,70 @@ class App {
         this.#mapEvent = mapE;
         form.classList.remove('hidden');
         inputReps.focus();
-            
+        
     }
-
-    _hideForm() {}
-
+    
+    
+    // Hide form + Clear input field
+    _hideForm() {
+        // Empty inputs
+        inputReps.value = inputDuration.value = inputGrade.value = inputNote.value = '';
+        form.style.display = 'none';
+        form.classList.add('hidden');
+        // to put on form again later display has to be grid again
+        setTimeout(() => (form.style.display = 'grid'), 1000);
+    }
+    
     _newWorkout(e) {
-
+        
         const validInputs = (...inputs) => inputs.every(inp => Number.isFinite(inp));
         const allPositive = (...inputs) => inputs.every(inp => inp > 0);
-
+        
         e.preventDefault();
-
+        
         // Get data from the form
         const type = inputType.value;
         const reps = +inputReps.value;
         const duration = +inputDuration.value;
-        const grade = +inputGrade.value;
+        const grade = inputGrade.value;
         const {lat, lng} = this.#mapEvent.latlng;
+        const note = inputNote.value;
         let climb;
-
+        
         // Check if data is valid
-        if (!validInputs(reps, duration, grade) || 
-            !allPositive(reps, duration, grade) || 
-            grade < 1 || grade >= 6) {
-                return alert('Inputs have to be valid numbers!');
-            }
-
+        if (!validInputs(reps, duration) || 
+        !allPositive(reps, duration)) {
+            return alert('Inputs have to be valid numbers!');
+        }
+        
         // If climbing bouldering, create bouldering object
         if (type === 'bouldering') {
-            climb = new Bouldering([lat, lng], reps, duration, grade);
+            climb = new Bouldering([lat, lng], reps, duration, grade, note);
         }
         
         // If rock climbing, create rock climbing object
         if (type === 'rockclimb') {
-            climb = new RockClimbing([lat, lng], reps, duration, grade);
+            climb = new RockClimbing([lat, lng], reps, duration, grade, note);
         }
         
         // Add new object to workout array
         this.#workouts.push(climb);
         console.log(climb);
-
+        
         // Render workout on map as marker
         this._renderWorkoutMarker(climb);
-
+        
         // Render workout on list
         this._renderWorkout(climb);
 
-        // Hide form + Clear input field
-
-        // Clear input fields
-        inputReps.value = inputDuration.value = inputGrade.value = '';
-
-            
+        // Hide the form
+        this._hideForm();
+        
+        // Set local storage for all the climb list
+        this._setLocalStorage();
+        
     }
-
+    
     _renderWorkoutMarker(workout) {
         L.marker(workout.coords, {icon: this.#shoeIcon})
             .addTo(this.#map)
@@ -169,7 +190,7 @@ class App {
                 closeOnClick: false,
                 className: `${workout.type}-popup`,
             }))
-            .setPopupContent('climb')
+            .setPopupContent(`${workout.type === 'bouldering' ? '🧗' : '🪢'} ${workout.description}`)
             .openPopup();
     }
 
@@ -180,7 +201,7 @@ class App {
                 <div class="workout__details">
                     <span class="workout__icon">🔁</span>
                     <span class="workout__value">${workout.reps}</span>
-                    <span class="workout__unit"></span>
+                    <span class="workout__unit">reps</span>
                 </div>
 
                 <div class="workout__details">
@@ -192,12 +213,56 @@ class App {
                 <div class="workout__details">
                     <span class="workout__icon">⚡️</span>
                     <span class="workout__value">${workout.grade}</span>
-                    <span class="workout__unit"></span>
+                    <span class="workout__unit">grade</span>
+                </div>
+
+                <div class="workout__details">
+                    <span class="workout__icon">📝</span>
+                    <span class="workout__value">${workout.note}</span>
                 </div>
             </li>
         `;
 
         form.insertAdjacentHTML('afterend', html);
+    }
+
+    _moveToPopup(e) {
+        const workoutEl = e.target.closest('.workout');
+        
+        if(!workoutEl) return;
+
+        const workout = this.#workouts.find(
+            work => work.id === workoutEl.dataset.id
+        );
+        console.log(workout);
+
+        this.#map.setView(workout.coords, this.#mapZoomLevel, {
+            animate: true,
+            pan: {
+                duration: 1,
+            },
+        });
+    }
+
+    _setLocalStorage() {
+        localStorage.setItem('workouts', JSON.stringify(this.#workouts));
+    }
+
+    _getLocalStorage() {
+        const data = JSON.parse(localStorage.getItem('workouts'));
+
+        if(!data) return;
+
+        this.#workouts = data;
+
+        this.#workouts.forEach(work => {
+            this._renderWorkout(work);
+        });
+    }
+
+    reset() {
+        localStorage.removeItem('workouts');
+        location.reload();
     }
 }
 

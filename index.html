@@ -17,31 +17,38 @@
 </head>
 <body>
     <div class="sidebar">
-        <h1 class="logo">climb log</h1>
+        <h1 class="logo">climb log<span> .</span></h1>
 
         <ul class="workouts">
             <form class="form hidden" id="log_form">
-                <div class="form_row">
+                <div class="form_row input-a">
                     <label class="form_label">Type</label>
                     <select class="form_input form_input-type">
                         <option value="bouldering">Bouldering</option>
                         <option value="rockclimb">Rock climbing</option>
                     </select>
                 </div>
-                <div class="form_row">
+                <div class="form_row input-b">
                     <label class="form_label">Reps</label>
                     <input class="form_input form_input-reps">
                 </div>
-                <div class="form_row">
+                <div class="form_row input-c">
                     <label class="form_label">Duration</label>
                     <input class="form_input form_input-duration" placeholder="min">
                 </div>
 
-                <div class="form_row">
+                <div class="form_row input-d">
                     <label class="form_label">Grade</label>
-                    <input class="form_input form_input-grade" placeholder="1 - 5">
+                    <input class="form_input form_input-grade" placeholder="V scale">
                 </div>
-                <button type="submit" form="log_form" class="form_btn">Log</button>
+
+                <div class="form_row input-e">
+                    <input class="form_input form_input-note" placeholder="Notes">
+                </div>
+
+                <div class="form_row input-f">
+                    <button type="submit" form="log_form" class="form_btn">Log</button>
+                </div>
 
             </form>
         </ul>
