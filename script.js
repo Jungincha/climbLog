@@ -110,6 +110,11 @@ class App {
     
         // Handling clicks on map
         this.#map.on('click', this._showForm.bind(this));
+
+        // Have to put the marker load here to make sure it happens after the map is uploaded
+        this.#workouts.forEach(work => {
+            this._renderWorkoutMarker(work);
+        });
     }
 
     _showForm(mapE) {
@@ -164,7 +169,6 @@ class App {
         
         // Add new object to workout array
         this.#workouts.push(climb);
-        console.log(climb);
         
         // Render workout on map as marker
         this._renderWorkoutMarker(climb);
@@ -234,7 +238,6 @@ class App {
         const workout = this.#workouts.find(
             work => work.id === workoutEl.dataset.id
         );
-        console.log(workout);
 
         this.#map.setView(workout.coords, this.#mapZoomLevel, {
             animate: true,
@@ -258,6 +261,7 @@ class App {
         this.#workouts.forEach(work => {
             this._renderWorkout(work);
         });
+
     }
 
     reset() {
