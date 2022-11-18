@@ -55,6 +55,7 @@ const inputReps = document.querySelector('.form_input-reps')
 const inputDuration = document.querySelector('.form_input-duration');
 const inputGrade = document.querySelector('.form_input-grade');
 const inputNote = document.querySelector('.form_input-note');
+const deleteX = document.querySelector('.fa-xmark');
 
 class App {
     // Private instance properties
@@ -76,6 +77,9 @@ class App {
 
         // When the climb card is clicked -> move to the popup
         containerWorkouts.addEventListener('click', this._moveToPopup.bind(this));
+
+        // When the delete x mark is clicked on the workout list
+        containerWorkouts.addEventListener('click', this._deleteWorkout.bind(this));
     }
 
     _getPosition() {
@@ -201,28 +205,33 @@ class App {
     _renderWorkout(workout) {
         const html = `
             <li class="workout climbing-${workout.type}" data-id="${workout.id}">
-                <h2 class="workout__title">${workout.description}</h2>
-                <div class="workout__details">
-                    <span class="workout__icon">🔁</span>
-                    <span class="workout__value">${workout.reps}</span>
-                    <span class="workout__unit">reps</span>
+                <div class="title-head">
+                    <h2 class="workout__title">${workout.description}</h2>
+                    <i class="fa-solid fa-xmark ${workout.id}"></i>
                 </div>
+                <div class="workout-body">
+                    <div class="workout__details">
+                        <span class="workout__icon">🔁</span>
+                        <span class="workout__value">${workout.reps}</span>
+                        <span class="workout__unit">reps</span>
+                    </div>
 
-                <div class="workout__details">
-                    <span class="workout__icon">⏱</span>
-                    <span class="workout__value">${workout.duration}</span>
-                    <span class="workout__unit">min</span>
-                </div>
+                    <div class="workout__details">
+                        <span class="workout__icon">⏱</span>
+                        <span class="workout__value">${workout.duration}</span>
+                        <span class="workout__unit">min</span>
+                    </div>
 
-                <div class="workout__details">
-                    <span class="workout__icon">⚡️</span>
-                    <span class="workout__value">${workout.grade}</span>
-                    <span class="workout__unit">grade</span>
-                </div>
+                    <div class="workout__details">
+                        <span class="workout__icon">⚡️</span>
+                        <span class="workout__value">${workout.grade}</span>
+                        <span class="workout__unit">grade</span>
+                    </div>
 
-                <div class="workout__details">
-                    <span class="workout__icon">📝</span>
-                    <span class="workout__value">${workout.note}</span>
+                    <div class="workout__details">
+                        <span class="workout__icon">📝</span>
+                        <span class="workout__value">${workout.note}</span>
+                    </div>
                 </div>
             </li>
         `;
@@ -245,6 +254,18 @@ class App {
                 duration: 1,
             },
         });
+    }
+
+    _deleteWorkout(e) {
+        const deleteX = e.target.closest('.fa-xmark');
+        
+        if (!deleteX) return;
+
+        this.#workouts = this.#workouts.filter(el => el.id != deleteX.classList[2]);
+
+        this._setLocalStorage();
+
+        location.reload();
     }
 
     _setLocalStorage() {
@@ -272,6 +293,24 @@ class App {
 
 const app = new App();
 
+
+// Ability to edit a workout
+
+// Ability to delete a workout
+
+// Ability to delete all workouts (Using UI)
+
+// Ability to sort workouts by a certain field (eg. distance)
+
+// Re-build Running and Cycling objects coming from Local Storage
+
+// More realistic error and confirmation messages
+
+// Ability to position the map to show all workouts(very hard)
+
+// Geocode location from coordinates("Run in Faro, Portugal") [only after asynchronous JavaScript section]
+
+// Display weather data for workout time and place [after asyn js section]
 
 
 
