@@ -296,7 +296,7 @@ const app = new App();
 
 // Ability to edit a workout
 
-// Ability to delete a workout
+// Ability to delete a workout (O)
 
 // Ability to delete all workouts (Using UI)
 
